@@ -1,0 +1,142 @@
+1. Create table STUDENT with the following details.
+> create table student(reg_id int(4) primary key, name varchar(20),branch varchar(10),
+contact bigint(10),DOB date, DOJ date ,address varchar(20),email varchar(50));
+
+mysql> describe student;
++---------+-------------+------+-----+---------+-------+
+| Field   | Type        | Null | Key | Default | Extra |
++---------+-------------+------+-----+---------+-------+
+| reg_id  | int         | NO   | PRI | NULL    |       |
+| name    | varchar(20) | YES  |     | NULL    |       |
+| branch  | varchar(10) | YES  |     | NULL    |       |
+| contact | bigint      | YES  |     | NULL    |       |
+| DOB     | date        | YES  |     | NULL    |       |
+| DOJ     | date        | YES  |     | NULL    |       |
+| address | varchar(20) | YES  |     | NULL    |       |
+| email   | varchar(50) | YES  |     | NULL    |       |
++---------+-------------+------+-----+---------+-------+
+
+2. Insert the following data into STUDENT table.
+> insert into student(reg_id, name ,branch,contact,DOB , DOJ ,address,email) values 
+ (101,'Riya','MCA',6203685615,"1998-02-13","2022-05-01",'Ranchi','meriyawood@gmail.com');
+ insert into student values (102,'Priya','BBA',979556435,"1997-02-20","2022-09-01",'Deoghar','priyawood@gmail.com');
+ insert into student values (103,'Aditi','MCA',979526135,"1999-11-13","2022-01-12",'Delhi','aditi@gmail.com');
+ insert into student values (104,'Sunita','BCA',928677721,"1998-05-20","2023-01-10",'Bokaro','sunita@gmail.com');
+ insert into student values (105,'Farhat','IT',979552331,"1998-07-09","2020-09-20",'Ranchi','farhat@gmail.com');
+ 
+select * from student;
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+| reg_id | name   | branch | contact    | DOB        | DOJ        | address | email                |
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+|    101 | Riya   | MCA    | 6203685615 | 1998-02-13 | 2022-05-01 | Ranchi  | meriyawood@gmail.com |
+|    102 | Priya  | BBA    |  979556435 | 1997-02-20 | 2022-09-01 | Deoghar | priyawood@gmail.com  |
+|    103 | Aditi  | MCA    |  979526135 | 1999-11-13 | 2022-01-12 | Delhi   | aditi@gmail.com      |
+|    104 | Sunita | BCA    |  928677721 | 1998-05-20 | 2023-01-10 | Bokaro  | sunita@gmail.com     |
+|    105 | Farhat | IT     |  979552331 | 1998-07-09 | 2020-09-20 | Ranchi  | farhat@gmail.com     |
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+
+3. Create table SUBJECT with the following details.
+>  create table subject(sub_code int(4),sub1 int(4),sub2 int(4),sub3 int(4),semester varchar(10),Reg_no int(6),foreign key(Reg_no) references student(reg_id));
+   mysql> desc subject;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| sub_code | int         | YES  |     | NULL    |       |
+| sub1     | int         | YES  |     | NULL    |       |
+| sub2     | int         | YES  |     | NULL    |       |
+| sub3     | int         | YES  |     | NULL    |       |
+| semester | varchar(10) | YES  |     | NULL    |       |
+| Reg_no   | int         | YES  | MUL | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+
+4. Insert the following data into SUBJECT table.
+>insert into subject(sub_code ,sub1 ,sub2 ,sub3 ,semester ,Reg_no) values (111,95,85,90,3,101);
+ insert into subject values (112,95,80,79,1,102);
+ insert into subject values (113,85,90,75,2,103);
+ insert into subject values (114,94,80,85,2,104);
+ insert into subject values (115,90,75,90,3,105);
+ select* from subject;
++----------+------+------+------+----------+--------+
+| sub_code | sub1 | sub2 | sub3 | semester | Reg_no |
++----------+------+------+------+----------+--------+
+|      111 |   95 |   85 |   90 | 3        |    101 |
+|      112 |   95 |   80 |   79 | 1        |    102 |
+|      113 |   85 |   90 |   75 | 2        |    103 |
+|      114 |   94 |   80 |   85 | 2        |    104 |
+|      115 |   90 |   75 |   90 | 3        |    105 |
++----------+------+------+------+----------+--------+
+
+
+5. Display a students information after updating his/her details.
+> update student set address='Deoghar' where name='Aditi';
+mysql> select * from student;
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+| reg_id | name   | branch | contact    | DOB        | DOJ        | address | email                |
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+|    101 | Riya   | MCA    | 6203685615 | 1998-02-13 | 2022-05-01 | Ranchi  | meriyawood@gmail.com |
+|    102 | Priya  | BBA    |  979556435 | 1997-02-20 | 2022-09-01 | Deoghar | priyawood@gmail.com  |
+|    103 | Aditi  | MCA    |  979526135 | 1999-11-13 | 2022-01-12 | Deoghar | aditi@gmail.com      |
+|    104 | Sunita | BCA    |  928677721 | 1998-05-20 | 2023-01-10 | Bokaro  | sunita@gmail.com     |
+|    105 | Farhat | IT     |  979552331 | 1998-07-09 | 2020-09-20 | Ranchi  | farhat@gmail.com     |
++--------+--------+--------+------------+------------+------------+---------+----------------------+
+
+6. Display the average marks of all the students.
+> select sub.sub_code,s.reg_id,s.name,sub.sub1,sub.sub2,sub.sub3,((sub1+sub2+sub3)/3) as average_marks from student s inner join subject sub on s.reg_id=sub.Reg_no;
++----------+--------+--------+------+------+------+---------------+
+| sub_code | reg_id | name   | sub1 | sub2 | sub3 | average_marks |
++----------+--------+--------+------+------+------+---------------+
+|      111 |    101 | Riya   |   95 |   85 |   90 |       90.0000 |
+|      112 |    102 | Priya  |   95 |   80 |   79 |       84.6667 |
+|      113 |    103 | Aditi  |   85 |   90 |   75 |       83.3333 |
+|      114 |    104 | Sunita |   94 |   80 |   85 |       86.3333 |
+|      115 |    105 | Farhat |   90 |   75 |   90 |       85.0000 |
++----------+--------+--------+------+------+------+---------------+
+
+7. Display the average marks of students from a particular branch.
+> select s.name,s.reg_id,sub.sub_code,s.branch,sub.semester,sub.sub1,sub.sub2,sub.sub3,
+  ((sub.sub1+sub.sub2+sub.sub3)/3)as average, round((((sub.sub1+sub.sub2+sub.sub3)/3)/9.5),
+  2) as GPA from student s inner join subject sub on s.reg_id=sub.Reg_no;
++--------+--------+----------+--------+----------+------+------+------+---------+------+
+| name   | reg_id | sub_code | branch | semester | sub1 | sub2 | sub3 | average | GPA  |
++--------+--------+----------+--------+----------+------+------+------+---------+------+
+| Riya   |    101 |      111 | MCA    | 3        |   95 |   85 |   90 | 90.0000 | 9.47 |
+| Priya  |    102 |      112 | BBA    | 1        |   95 |   80 |   79 | 84.6667 | 8.91 |
+| Aditi  |    103 |      113 | MCA    | 2        |   85 |   90 |   75 | 83.3333 | 8.77 |
+| Sunita |    104 |      114 | BCA    | 2        |   94 |   80 |   85 | 86.3333 | 9.09 |
+| Farhat |    105 |      115 | IT     | 3        |   90 |   75 |   90 | 85.0000 | 8.95 |
++--------+--------+----------+--------+----------+------+------+------+---------+------+
+
+8. Display the sum of marks of students where semester = 3.
+> select (sub1+sub2+sub3)as sum_of_marks,semester from subject where semester=3;
++--------------+----------+
+| sum_of_marks | semester |
++--------------+----------+
+|          270 | 3        |
+|          255 | 3        |
++--------------+----------+
+
+9. Display the reg_no,student name, marks whose sum of marks is greater than 250.
+> select sub.sub_code,s.reg_id,s.name,(sub1+sub2+sub3) as sum_of_marks from Student s
+  inner join subject sub on s.reg_id=sub.Reg_no where (sub.sub1+sub.sub2+sub.sub3)>250;
++----------+--------+--------+--------------+
+| sub_code | reg_id | name   | sum_of_marks |
++----------+--------+--------+--------------+
+|      111 |    101 | Riya   |          270 |
+|      112 |    102 | Priya  |          254 |
+|      114 |    104 | Sunita |          259 |
+|      115 |    105 | Farhat |          255 |
++----------+--------+--------+--------------+
+
+10. Calculate the percentage for the marks for all the students. Display the reg_no, student_name, branch, semester and percentage.
+> select sub.sub_code,s.reg_id,s.name,sub.sub1,sub.sub2,sub.sub3,
+  ((sub1+sub2+sub3)/3)as average_marks,(((sub1+sub2+sub3)/3)*100/100)
+  as percentage from student s inner join subject sub on s.reg_id=sub.Reg_no;
++----------+--------+--------+------+------+------+---------------+-------------+
+| sub_code | reg_id | name   | sub1 | sub2 | sub3 | average_marks | percentage  |
++----------+--------+--------+------+------+------+---------------+-------------+
+|      111 |    101 | Riya   |   95 |   85 |   90 |       90.0000 | 90.00000000 |
+|      112 |    102 | Priya  |   95 |   80 |   79 |       84.6667 | 84.66666667 |
+|      113 |    103 | Aditi  |   85 |   90 |   75 |       83.3333 | 83.33333333 |
+|      114 |    104 | Sunita |   94 |   80 |   85 |       86.3333 | 86.33333333 |
+|      115 |    105 | Farhat |   90 |   75 |   90 |       85.0000 | 85.00000000 |
++----------+--------+--------+------+------+------+---------------+-------------+
